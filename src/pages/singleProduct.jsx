@@ -16,7 +16,7 @@ export default function SingleProduct() {
   const { image, title, company, price, description, colors } = product.attributes;
   const dollars = formatPrice(price);
   const [productsColors, setProductColors] = useState(colors[0]);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const cartProduct = {
     cartID: product.id + productsColors,
     productID: product.id,
@@ -27,6 +27,7 @@ export default function SingleProduct() {
     productsColors,
     amount
   }
+
   
   const dispatch = useDispatch()
   const addToCart = ()=>{
