@@ -1,22 +1,38 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { formatPrice, customFetch, generateAmountOption } from "../utils/Index";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../features/cart/cartSlice";
+import Login from "./login";
 
 export const loader = async ({ params }) => {
   const response = await customFetch(`/products/${params.id}`);
-  // console.log(params);
-  // console.log(response.data.data);
-
   return { product: response.data.data };
 };
 export default function SingleProduct() {
   const { product } = useLoaderData();
-  const { image, title, company, price, description, colors } =
-    product.attributes;
+  console.log(product);
+  
+  const { image, title, company, price, description, colors } = product.attributes;
   const dollars = formatPrice(price);
-  // console.log(product);
   const [productsColors, setProductColors] = useState(colors[0]);
   const [amount, setAmount] = useState(0);
+  const cartProduct = {
+    cartID: product.id + productsColors,
+    productID: product.id,
+    image,
+    title,
+    price,
+    company, 
+    productsColors,
+    amount
+  }
+  
+  const dispatch = useDispatch()
+  const addToCart = ()=>{
+    dispatch(addItem({product:cartProduct}))
+    
+  }
   const handleAmount = (e) => {
     setAmount(e.target.value);
   };
@@ -71,7 +87,7 @@ export default function SingleProduct() {
                 </h4>
               </label>
               <select
-              className="select select-secondary select-bordered select-md"
+                className="select select-secondary select-bordered select-md"
                 name="amount"
                 id="amount"
                 value={amount}
@@ -80,7 +96,9 @@ export default function SingleProduct() {
                 {generateAmountOption(20)}
               </select>
               {/* cart btn */}
-              <button className="btn btn-secondary btn-md mt-8">Add to bag</button>
+              <button className="btn btn-secondary btn-md mt-8" onClick={addToCart}>
+                Add to bag
+              </button>
             </div>
           </div>
         </div>
