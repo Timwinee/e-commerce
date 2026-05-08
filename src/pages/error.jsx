@@ -18,7 +18,7 @@ export default function Error() {
   }
   return (
     <main className="grid place-items-center min-h-screen">
-        <h1 className="text-9xl font-semibold ">Error</h1>
+        <h1 className="text-6xl font-semibold ">There was an error ...</h1>
     </main>
   )
 }

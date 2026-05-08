@@ -17,8 +17,11 @@ import {ErrorElement} from './components'
 import {loader as landingLoader} from './pages/Landing'
 import {loader as singleProductsLoader} from './pages/singleProduct'
 import {loader as productsLoader} from './pages/products'
+import { ThemeProvider } from "./context/ThemeContext";
+import {action as RegisterAction} from './pages/register'
 
 function App() {
+  // const router = createBrowserRouter([
   const router = createBrowserRouter([
     {
       path: "/",
@@ -70,9 +73,14 @@ function App() {
       path: "/register",
       element: <Register />,
       errorElement: <Error />,
+      action:RegisterAction
     },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  )
 }
 
 export default App;

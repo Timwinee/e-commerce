@@ -2,30 +2,16 @@ import { Link, NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { BsCart, BsMoonFill, BsSunFill } from "react-icons/bs";
 import Navlink from "./navlink";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useTheme } from "../context/ThemeContext";
 
 const themes = {
   winter: "winter",
   dracula: "dracula",
 };
-const getThemeFromLocalStorage = () => {
-  return localStorage.getItem("theme") || themes.winter;
-};
 
 const Navbar = () => {
-  const [theme, setTheme] = useState(getThemeFromLocalStorage);
-  // console.log(theme);
-  
-  const toogleTheme = () => {
-    const { winter, dracula } = themes;
-    const currentTheme = theme === winter ? dracula : winter;
-    setTheme(currentTheme);
-  };
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
+  const { theme, toggleTheme } = useTheme();
   const numItemsInCart = useSelector((state)=> state.cartState.numItemInCart)
   // console.log(numItemsInCart);
   
@@ -60,7 +46,7 @@ const Navbar = () => {
         <div className="navbar-end">
           {/* Theme */}
           <label className="swap swap-rotate">
-            <input type="checkbox" onChange={toogleTheme} />
+            <input type="checkbox" checked={theme === themes.dracula} onChange={toggleTheme} />
             {/* Sun icon */}
             <BsSunFill className="h-4 w-4 swap-on" />
 
